@@ -1,0 +1,8 @@
+sources:
+  - name: prefixed-service
+    handler:
+      graphql:
+        endpoint: http://original-service:4000/graphql
+    transforms:
+      - prefix:
+          value: Prefix

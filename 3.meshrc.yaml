@@ -1,0 +1,16 @@
+sources:
+  - name: federated-service
+    handler:
+      graphql:
+        endpoint: http://original-service:4000/graphql
+    transforms:
+      - federation: 
+          types:
+            - name: Query
+              config:
+                extend: true
+            - name: Person
+              config:
+                extend: false
+                keyFields:
+                  - id

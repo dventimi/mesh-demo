@@ -1,0 +1,9 @@
+sources:
+  - name: renamed-service
+    handler:
+      graphql:
+        endpoint: http://original-service:4000/graphql
+    transforms:
+      - rename:
+          - from: Person
+            to: PrefixPerson
