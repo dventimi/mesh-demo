@@ -4,16 +4,11 @@ sources:
       graphql:
         endpoint: http://original-service:4000/graphql
     transforms:
-      - filterSchema:
-          - !Subscription
       - federation: 
           types:
             - name: Query
               config:
                 extend: true
-            - name: Subscription
-              config:
-                extend: false
             - name: Person
               config:
                 extend: false
