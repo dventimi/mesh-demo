@@ -1,5 +1,5 @@
 sources:
-  - name: prefixed-service
+  - name: federation-defining-service
     handler:
       graphql:
         endpoint: http://corsair-service.live.dev.cheggnet.com/corsair-service/graphql

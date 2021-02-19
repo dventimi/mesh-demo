@@ -21,6 +21,6 @@ services:
     image: hiroyukiosaki/graphql-mesh:latest-all-alpine
     ports:
       - "4020:4000"
-    restart: always
+    restart: alwaysqqq
     volumes:
       - ./2.meshrc.yaml:/work/.meshrc.yaml
