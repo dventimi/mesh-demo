@@ -2,7 +2,22 @@ sources:
   - name: prefixed-service
     handler:
       graphql:
-        endpoint: http://original-service:4000/graphql
+        endpoint: http://corsair-service.live.dev.cheggnet.com/corsair-service/graphql
     transforms:
       - prefix:
-          value: Prefix
+          value: Corsair
+      - federation: 
+          types:
+            - name: Query
+              config:
+                extend: true
+            - name: CorsairCourse
+              config:
+                extend: false
+                keyFields:
+                  - id
+                resolveReference:
+                  targetSource: federated-service
+                  targetMethod: course
+                  args:
+                    id: root.id

@@ -1,9 +1,26 @@
 sources:
-  - name: renamed-service
+  - name: filtered-service
     handler:
       graphql:
-        endpoint: http://original-service:4000/graphql
+        endpoint: http://corsair-service.live.dev.cheggnet.com/corsair-service/graphql
     transforms:
-      - rename:
-          - from: Person
-            to: PrefixPerson
+      - prefix:
+          value: Corsair
+      - filterSchema:
+          - Query.!{course,allCourses,courses,searchCourse,searchCourseInSchool,searchSchool,searchSchoolV2,allDepartments,department,discipline,allSchools,school,schoolDepartment,schoolCourses,coursesByClassificationId,errors}
+          - CorsairCourse.!{name,num,description,classification,classificationId,disciplinePid,yearOffered,semesterOffered,created,updated,department,school,search}
+      - federation: 
+          types:
+            - name: Query
+              config:
+                extend: true
+            - name: CorsairCourse
+              config:
+                extend: true
+                keyFields:
+                  - id
+                fields:
+                  - name: id
+                    config:
+                      external: true
+          

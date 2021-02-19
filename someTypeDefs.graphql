@@ -1,0 +1,7 @@
+extend type CorsairCourse {
+  fullName: String
+}
+
+extend type Course {
+  fullName: String
+}

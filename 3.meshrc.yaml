@@ -2,15 +2,20 @@ sources:
   - name: federated-service
     handler:
       graphql:
-        endpoint: http://original-service:4000/graphql
+        endpoint: http://prefixed-service:4000/graphql
     transforms:
       - federation: 
           types:
             - name: Query
               config:
                 extend: true
-            - name: Person
+            - name: CorsairCourse
               config:
                 extend: false
                 keyFields:
                   - id
+                resolveReference:
+                  targetSource: federated-service
+                  targetMethod: course
+                  args:
+                    id: root.id
