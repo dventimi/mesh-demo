@@ -27,7 +27,7 @@ services:
     restart: always
     volumes:
       - ./0.meshrc.yaml:/work/.meshrc.yaml
-  prefixed-service:
+  federation-defining-service:
     image: hiroyukiosaki/graphql-mesh:latest-all-alpine
     ports:
       - "4010:4000"
@@ -36,16 +36,7 @@ services:
     restart: always
     volumes:
       - ./1.meshrc.yaml:/work/.meshrc.yaml
-  renamed-service:
-    image: hiroyukiosaki/graphql-mesh:latest-all-alpine
-    ports:
-      - "4020:4000"
-    depends_on:
-      - original-service
-    restart: always
-    volumes:
-      - ./2.meshrc.yaml:/work/.meshrc.yaml
-  federated-service:
+  federation-extending-service:
     image: hiroyukiosaki/graphql-mesh:latest-all-alpine
     ports:
       - "4030:4000"
@@ -53,4 +44,16 @@ services:
       - original-service
     restart: always
     volumes:
-      - ./3.meshrc.yaml:/work/.meshrc.yaml
+      - ./2.meshrc.yaml:/work/.meshrc.yaml
+  federation-gateway-service:
+    image: xmorse/apollo-federation-gateway
+    ports:
+      - "4040:80"
+    depends_on:
+      - federation-defining-service
+      - federation-extending-service
+    restart: always
+    environment:
+      - URL_0=http://federated-defining-service:4000/graphql
+      - URL_1=http://federated-extending-service:4000/graphql
+
