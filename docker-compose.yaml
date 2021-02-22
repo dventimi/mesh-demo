@@ -8,11 +8,13 @@ services:
     volumes:
       - ./1.meshrc.yaml:/work/.meshrc.yaml
   gateway:
-    image: xmorse/apollo-federation-gateway
+    image: graphql/gateway
     ports:
       - "4000:80"
     depends_on:
       - corsair
     restart: always
     environment:
-      - URL_0=http://corsair:4000/graphql
+      - GRAPHQL_URL_0=http://corsair:4000/graphql
+      - GRAPHQL_UPDATE_GATEWAY_INTERVAL_MS=60000
+      - GRAPHQL_UPDATE_GATEWAY=true
