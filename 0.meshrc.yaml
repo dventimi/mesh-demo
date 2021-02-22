@@ -1,7 +1,0 @@
-sources:
-  - name: original-service
-    handler:
-      postgraphile:
-        connectionString: postgres://postgres:postgres@postgres/postgres
-
-          

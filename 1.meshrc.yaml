@@ -1,8 +1,56 @@
 sources:
-  - name: federation-defining-service
+  - name: corsair
     handler:
       graphql:
-        endpoint: http://original-service:4000/graphql
+        endpoint: http://corsair-service.live.dev.cheggnet.com/corsair-service/graphql
     transforms:
       - prefix:
-          value: Prefix
+          value: Corsair
+      - federation: 
+          types:
+            - name: Query
+              config:
+                extend: true
+            - name: CorsairCourse
+              config:
+                extend: false
+                keyFields:
+                  - id
+                resolveReference:
+                  targetSource: corsair
+                  targetMethod: course
+                  args:
+                    id: root.id
+            - name: CorsairDepartment
+              config:
+                extend: false
+                keyFields:
+                  - id
+                resolveReference:
+                  targetSource: corsair
+                  targetMethod: department
+                  args:
+                    id: root.id
+            - name: CorsairDiscipline
+              config:
+                extend: false
+                keyFields:
+                  - id
+                resolveReference:
+                  targetSource: corsair
+                  targetMethod: discipline
+                  args:
+                    id: root.id
+            - name: CorsairSchool
+              config:
+                extend: false
+                keyFields:
+                  - id
+                resolveReference:
+                  targetSource: corsair
+                  targetMethod: school
+                  args:
+                    id: root.id
+      - filterSchema:
+          - Query.{errors,_entities,_service}
+
